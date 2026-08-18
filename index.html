@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Benjamin Makau — Software Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0f1e;
+      --bg2: #111827;
+      --surface: #161d30;
+      --border: #1e2a40;
+      --accent: #4f9eff;
+      --accent2: #a78bfa;
+      --green: #34d399;
+      --orange: #fb923c;
+      --text: #e2e8f0;
+      --muted: #64748b;
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-display); line-height: 1.6; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      backdrop-filter: blur(12px);
+      background: rgba(10,15,30,0.88);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .nav-logo { font-family: var(--font-mono); font-size: 1rem; color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 6rem 10vw 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(79,158,255,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent);
+      letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;
+    }
+    .hero-eyebrow::before { content: ''; display: inline-block; width: 32px; height: 1px; background: var(--accent); }
+    h1 { font-size: clamp(2.8rem, 6vw, 5.5rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+    .name-accent { color: var(--accent); }
+    .hero-bio { font-size: 1.1rem; color: var(--muted); max-width: 540px; margin-bottom: 2.5rem; line-height: 1.8; }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn { padding: 0.75rem 1.75rem; border-radius: 6px; font-family: var(--font-display); font-size: 0.9rem; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .btn-primary { background: var(--accent); color: #0a0f1e; border: none; }
+    .btn-primary:hover { background: #6baeff; transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+    .hero-stats { display: flex; gap: 3rem; margin-top: 4rem; padding-top: 2.5rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+    .stat-value { font-size: 2rem; font-weight: 700; color: var(--text); }
+    .stat-label { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+    /* SECTIONS */
+    section { padding: 6rem 10vw; }
+    .section-label { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent2); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .section-title { font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 1rem; }
+    .section-subtitle { color: var(--muted); font-size: 1rem; max-width: 500px; margin-bottom: 3.5rem; }
+
+    /* SKILLS */
+    .skills-section { background: var(--bg2); }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.5rem; }
+    .skill-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; transition: border-color 0.2s, transform 0.2s; }
+    .skill-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .skill-card-icon { margin-bottom: 0.75rem; color: var(--accent); display: flex; }
+    .skill-card-icon.purple { color: var(--accent2); }
+    .skill-card-icon.green { color: var(--green); }
+    .skill-card-icon.orange { color: var(--orange); }
+    .skill-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag { font-family: var(--font-mono); font-size: 0.72rem; padding: 0.25rem 0.6rem; border-radius: 4px; background: rgba(79,158,255,0.08); color: var(--accent); border: 1px solid rgba(79,158,255,0.2); }
+    .tag.purple { background: rgba(167,139,250,0.08); color: var(--accent2); border-color: rgba(167,139,250,0.2); }
+    .tag.green { background: rgba(52,211,153,0.08); color: var(--green); border-color: rgba(52,211,153,0.2); }
+    .tag.orange { background: rgba(251,146,60,0.08); color: var(--orange); border-color: rgba(251,146,60,0.2); }
+
+    /* PROJECTS */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 1.75rem; }
+    .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: transform 0.2s, border-color 0.2s; display: flex; flex-direction: column; }
+    .project-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .project-card.featured { border-color: rgba(79,158,255,0.3); background: linear-gradient(135deg, #161d30 0%, #111827 100%); }
+    .project-card.featured:hover { border-color: var(--accent); }
+    .project-card-top { padding: 1.75rem 1.75rem 0; }
+    .project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.6rem; }
+    .project-type { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; display: flex; align-items: center; gap: 0.5rem; }
+    .dot-green { width: 6px; height: 6px; border-radius: 50%; background: var(--green); display: inline-block; flex-shrink: 0; }
+    .dot-blue { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; flex-shrink: 0; }
+    .dot-purple { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); display: inline-block; flex-shrink: 0; }
+    .dot-orange { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); display: inline-block; flex-shrink: 0; }
+    .badge { font-family: var(--font-mono); font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 20px; }
+    .badge-live { background: rgba(52,211,153,0.12); color: var(--green); border: 1px solid rgba(52,211,153,0.3); }
+    .badge-building { background: rgba(251,146,60,0.12); color: var(--orange); border: 1px solid rgba(251,146,60,0.3); }
+    .badge-built { background: rgba(167,139,250,0.12); color: var(--accent2); border: 1px solid rgba(167,139,250,0.3); }
+    .project-card h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.75rem; }
+    .project-desc { color: var(--muted); font-size: 0.88rem; line-height: 1.75; margin-bottom: 1.25rem; }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 1.25rem 1.75rem; border-top: 1px solid var(--border); }
+    .project-links { padding: 1rem 1.75rem; display: flex; gap: 1.25rem; border-top: 1px solid var(--border); margin-top: auto; }
+    .project-link { font-size: 0.82rem; color: var(--accent); text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 0.35rem; transition: opacity 0.2s; }
+    .project-link:hover { opacity: 0.7; }
+    .project-link.disabled { color: var(--muted); cursor: default; pointer-events: none; }
+    .project-link svg { width: 14px; height: 14px; }
+
+    /* EDUCATION */
+    .edu-section { background: var(--bg2); }
+    .edu-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; display: flex; gap: 1.5rem; align-items: flex-start; max-width: 640px; }
+    .edu-icon { color: var(--accent); flex-shrink: 0; margin-top: 0.2rem; }
+    .edu-degree { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .edu-school { color: var(--accent); font-size: 0.9rem; margin-bottom: 0.3rem; }
+    .edu-date { font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); }
+
+    /* CONTACT */
+    .contact-section { text-align: center; position: relative; overflow: hidden; }
+    .contact-section::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 600px; height: 400px; background: radial-gradient(ellipse, rgba(79,158,255,0.05) 0%, transparent 70%); pointer-events: none; }
+    .contact-email { font-size: clamp(1rem, 2.5vw, 1.6rem); font-family: var(--font-mono); color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 0.25rem; transition: border-color 0.2s, color 0.2s; }
+    .contact-email:hover { color: var(--accent); border-color: var(--accent); }
+    .social-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 2.5rem; flex-wrap: wrap; }
+    .social-link { color: var(--muted); text-decoration: none; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 0.5rem; transition: color 0.2s; padding: 0.5rem 1rem; border: 1px solid var(--border); border-radius: 6px; }
+    .social-link:hover { color: var(--accent); border-color: var(--accent); }
+    .social-link svg { width: 16px; height: 16px; }
+
+    footer { padding: 2rem 10vw; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 0.82rem; flex-wrap: wrap; gap: 0.5rem; }
+    .footer-mono { font-family: var(--font-mono); }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 640px) {
+      section { padding: 4rem 5vw; }
+      .hero { padding: 5rem 5vw 3rem; }
+      nav { padding: 1rem; }
+      .nav-links { gap: 1rem; }
+      .nav-links a { font-size: 0.8rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; }
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">bm.dev</div>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Open to opportunities</div>
+  <h1>Benjamin<br><span class="name-accent">Makau.</span></h1>
+  <p class="hero-bio">
+    Software Engineer & ICT student building real-world systems — from AI-powered video pipelines and management platforms to native Android apps and graphic design tools.
+  </p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary">
+      <i data-lucide="folder-open"></i> View My Work
+    </a>
+    <a href="#contact" class="btn btn-outline">
+      <i data-lucide="mail"></i> Get In Touch
+    </a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="stat-value">8</div>
+      <div class="stat-label">Projects Built</div>
+    </div>
+    <div>
+      <div class="stat-value">8+</div>
+      <div class="stat-label">Technologies</div>
+    </div>
+    <div>
+      <div class="stat-value">Live</div>
+      <div class="stat-label">& Shipping</div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills-section" id="skills">
+  <div class="reveal">
+    <div class="section-label">What I work with</div>
+    <h2 class="section-title">Skills & Technologies</h2>
+    <p class="section-subtitle">Built across web, backend, mobile, and AI-powered projects.</p>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-card-icon"><i data-lucide="monitor" width="22" height="22"></i></div>
+      <h3>Frontend & Design</h3>
+      <div class="skill-tags">
+        <span class="tag">HTML</span>
+        <span class="tag">CSS</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">Responsive Design</span>
+        <span class="tag">Graphics Design</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon purple"><i data-lucide="server" width="22" height="22"></i></div>
+      <h3>Backend & APIs</h3>
+      <div class="skill-tags">
+        <span class="tag purple">Python</span>
+        <span class="tag purple">FastAPI</span>
+        <span class="tag purple">Node.js</span>
+        <span class="tag purple">React</span>
+        <span class="tag purple">REST APIs</span>
+        <span class="tag purple">PostgreSQL</span>
+        <span class="tag purple">SQLite</span>
+        <span class="tag purple">MySQL</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon green"><i data-lucide="smartphone" width="22" height="22"></i></div>
+      <h3>Mobile Development</h3>
+      <div class="skill-tags">
+        <span class="tag green">Kotlin</span>
+        <span class="tag green">Jetpack Compose</span>
+        <span class="tag green">Android</span>
+        <span class="tag green">Native Android</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon orange"><i data-lucide="cpu" width="22" height="22"></i></div>
+      <h3>AI & Video Processing</h3>
+      <div class="skill-tags">
+        <span class="tag orange">Groq Whisper</span>
+        <span class="tag orange">LLaMA 3.3</span>
+        <span class="tag orange">Edge TTS</span>
+        <span class="tag orange">FFmpeg</span>
+        <span class="tag orange">yt-dlp</span>
+        <span class="tag">Git</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="reveal">
+    <div class="section-label">What I've built</div>
+    <h2 class="section-title">Projects</h2>
+    <p class="section-subtitle">A mix of live products, AI tools, management systems, and mobile apps.</p>
+  </div>
+  <div class="projects-grid">
+
+    <!-- ClipAI -->
+    <div class="project-card featured reveal">
+      <div class="project-card-top">
+        <div class="project-header">
+          <div class="project-type"><span class="dot-orange"></span> AI-Powered Tool</div>
+          <span class="badge badge-built">✓ Built</span>
+        </div>
+        <h3>ClipAI — AI Video Clipper</h3>
+        <p class="project-desc">A free alternative to Opus Clip and Veed.io. Downloads any YouTube video, transcribes it with Groq Whisper, uses LLaMA 3.3-70B to identify the most viral moments, generates an AI voiceover with Edge TTS, and exports a ready-to-post short clip — fully automated.</p>
+      </div>
+      <div class="project-stack">
+        <span class="tag orange">Python</span>
+        <span class="tag orange">FastAPI</span>
+        <span class="tag orange">Groq Whisper</span>
+        <span class="tag orange">LLaMA 3.3-70B</span>
+        <span class="tag orange">Edge TTS</span>
+        <span class="tag orange">FFmpeg</span>
+        <span class="tag orange">yt-dlp</span>
+      </div>
+      <div class="project-links">
+        <span class="project-link disabled">
+          <i data-lucide="clock"></i> Not Yet Hosted
+        </span>
+      </div>
+    </div>
+
+    <!-- MovieAI -->
+    <div class="project-card featured reveal">
+      <div class="project-card-top">
+        <div class="project-header">
+          <div class="project-type"><span class="dot-purple"></span> AI-Powered Tool</div>
+          <span class="badge badge-built">✓ Built</span>
+        </div>
+        <h3>MovieAI — Movie Recap Pipeline</h3>
+        <p class="project-desc">Automates the full movie recap workflow for YouTube Shorts. Paste timestamps and narration, and MovieAI cuts each scene, generates a cinematic voiceover with Edge TTS, syncs the clip length to the voice, and merges everything into one ready-to-caption video.</p>
+      </div>
+      <div class="project-stack">
+        <span class="tag purple">Python</span>
+        <span class="tag purple">FastAPI</span>
+        <span class="tag purple">Edge TTS</span>
+        <span class="tag purple">FFmpeg</span>
+        <span class="tag">HTML</span>
+        <span class="tag">CSS</span>
+        <span class="tag">JavaScript</span>
+      </div>
+      <div class="project-links">
+        <span class="project-link disabled">
+          <i data-lucide="clock"></i> Not Yet Hosted
+        </span>
+      </div>
+    </div>
+
+    <!-- Wote TTI -->
+    <div class="project-card featured reveal">
+      <div class="project-card-top">
+        <div class="project-header">
+          <div class="project-type"><span class="dot-green"></span> Institutional System</div>
+          <span class="badge badge-built">✓ Built</span>
+        </div>
+        <h3>Wote TTI — Online Voting System</h3>
+        <p class="project-desc">A secure institutional voting platform built for Wote Technical Training Institute. Features student verification via Africa's Talking SMS OTP, role-based access for students and admins, real-time election management, live results dashboard, and a full audit trail. Load tested to 110+ concurrent users.</p>
+      </div>
+      <div class="project-stack">
+        <span class="tag green">Python</span>
+        <span class="tag green">FastAPI</span>
+        <span class="tag green">PostgreSQL</span>
+        <span class="tag green">React</span>
+        <span class="tag green">Vite</span>
+        <span class="tag green">Africa's Talking</span>
+        <span class="tag green">SMS OTP</span>
+      </div>
+      <div class="project-links">
+        <span class="project-link disabled">
+          <i data-lucide="clock"></i> Awaiting Deployment
+        </span>
+      </div>
+    </div>
+
+    <!-- Benji Visuals -->
+    <div class="project-card reveal">
+      <div class="project-card-top">
+        <div class="project-header">
+          <div class="project-type"><span class="dot-green"></span> Design & Web</div>
+          <span class="badge badge-live">● Live</span>
+        </div>
+        <h3>Benji Visuals — Graphics Portfolio</h3>
+        <p class="project-desc">A personal portfolio showcasing graphic design work. Designed and built from scratch and deployed live — demonstrating both design sensibility and the ability to ship to production.</p>
+      </div>
+      <div class="project-stack">
+        <span class="tag">HTML</span>
+        <span class="tag">CSS</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag green">Vercel</span>
+      </div>
+      <div class="project-links">
+        <a href="https://benji-visuals-portofolio.vercel.app/" target="_blank" class="project-link">
+          <i data-lucide="external-link"></i> View Live Site
+        </a>
+      </div>
+    </div>
+
+    <!-- Result Management System -->
+    <div class="project-card reveal">
+      <div class="project-card-top">
+        <div class="project-header">
+          <div class="project-type"><span class="dot-blue"></span> Web System</div>
+          <span class="badge badge-built">✓ Built</span>
+        </div>
+        <h3>University Result Management System</h3>
+        <p class="project-desc">A full web system for managing student exam results. Handles enrolment, grade entry across assessment types, GPA calculation, honours classification, class position ranking, and role-based login for admins and teachers. Deployed on PythonAnywhere.</p>
+      </div>
+      <div class="project-stack">
+        <span class="tag purple">Python</span>
+        <span class="tag purple">FastAPI</span>
+        <span class="tag purple">SQLite</span>
+        <span class="tag">HTML</span>
+        <span class="tag">CSS</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag green">PythonAnywhere</span>
+      </div>
+      <div class="project-links">
+        <span class="project-link disabled">
+          <i data-lucide="clock"></i> Awaiting Client Deployment
+        </span>
+      </div>
+    </div>
+
+    <!-- EventHub -->
+    <div class="project-card reveal">
+      <div class="project-card-top">
+        <div class="project-header">
+          <div class="project-type"><span class="dot-blue"></span> Web Application</div>
+          <span class="badge badge-built">✓ Built</span>
+        </div>
+        <h3>EventHub — Event Management System</h3>
+        <p class="project-desc">A web platform for managing events end to end — listings, registrations, scheduling, vendor coordination, and attendee management. Features a consistent dashboard UI across all modules with a Node.js backend.</p>
+      </div>
+      <div class="project-stack">
+        <span class="tag purple">Node.js</span>
+        <span class="tag">HTML</span>
+        <span class="tag">CSS</span>
+        <span class="tag">JavaScript</span>
+      </div>
+      <div class="project-links">
+        <span class="project-link disabled">
+          <i data-lucide="clock"></i> Not Yet Hosted
+        </span>
+      </div>
+    </div>
+
+    <!-- Farmer Price Tracker -->
+    <div class="project-card reveal">
+      <div class="project-card-top">
+        <div class="project-header">
+          <div class="project-type"><span class="dot-orange"></span> Android App</div>
+          <span class="badge badge-building">⚡ In Progress</span>
+        </div>
+        <h3>Farmer Price Tracker</h3>
+        <p class="project-desc">A native Android app helping farmers track and compare market prices for their produce. Built with Kotlin and Jetpack Compose to give farmers real-time pricing insights directly on their phones.</p>
+      </div>
+      <div class="project-stack">
+        <span class="tag green">Kotlin</span>
+        <span class="tag green">Jetpack Compose</span>
+        <span class="tag orange">Android Studio</span>
+      </div>
+      <div class="project-links">
+        <span class="project-link disabled">
+          <i data-lucide="hammer"></i> In Development
+        </span>
+      </div>
+    </div>
+
+    <!-- WhatsApp Bot -->
+    <div class="project-card reveal">
+      <div class="project-card-top">
+        <div class="project-header">
+          <div class="project-type"><span class="dot-green"></span> Bot / Automation</div>
+          <span class="badge badge-built">✓ Built</span>
+        </div>
+        <h3>WhatsApp Bot</h3>
+        <p class="project-desc">A feature-rich WhatsApp bot built with Node.js and Baileys. Supports AI responses, fun commands, TikTok media downloads, group management with blacklisting, media handling, and owner-only admin controls — all organized across modular command files.</p>
+      </div>
+      <div class="project-stack">
+        <span class="tag purple">Node.js</span>
+        <span class="tag purple">Baileys</span>
+        <span class="tag">JavaScript</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/ITSGRILLO/whatsapp-bot" target="_blank" class="project-link">
+          <i data-lucide="github"></i> View on GitHub
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="edu-section" id="education">
+  <div class="reveal">
+    <div class="section-label">Where I'm learning</div>
+    <h2 class="section-title">Education</h2>
+    <p class="section-subtitle">Formal training combined with hands-on project building.</p>
+  </div>
+  <div class="edu-card reveal">
+    <div class="edu-icon"><i data-lucide="graduation-cap" width="32" height="32"></i></div>
+    <div>
+      <div class="edu-degree">Diploma in Information & Communication Technology</div>
+      <div class="edu-school">Completed · Kenya</div>
+      <div class="edu-date">Awaiting Certificate</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="reveal">
+    <div class="section-label">Let's talk</div>
+    <h2 class="section-title">Get In Touch</h2>
+    <p class="section-subtitle" style="margin: 0 auto 2.5rem;">Have a project, opportunity, or just want to connect? I'd love to hear from you.</p>
+    <a href="mailto:jouavee@gmail.com" class="contact-email">jouavee@gmail.com</a>
+    <div class="social-links">
+      <a href="https://github.com/ITSGRILLO" target="_blank" class="social-link">
+        <i data-lucide="github"></i> GitHub
+      </a>
+      <a href="https://wa.me/254715186185" target="_blank" class="social-link">
+        <i data-lucide="message-circle"></i> WhatsApp
+      </a>
+      <a href="https://benji-visuals-portofolio.vercel.app/" target="_blank" class="social-link">
+        <i data-lucide="palette"></i> Design Portfolio
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Benjamin Makau</span>
+  <span class="footer-mono">Software Engineer · Makueni, Kenya</span>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.383.0/dist/umd/lucide.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    } else {
+      console.error('Lucide failed to load.');
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 90);
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  });
+</script>
+</body>
+</html>
